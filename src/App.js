@@ -42,7 +42,18 @@ class App extends Component {
     axios
       .post("http://localhost:3000/books", this.state.newBookData)
       .then(response => {
-        console.log(response.data);
+        let { books } = this.state;
+        books.push(response.data);
+        // update the state and hide the modal window, and reset the modal to be empty when adding a new book
+        this.setState({
+          books,
+          newBookModal: false,
+          newBookData: {
+            title: "",
+            rating: ""
+          }
+        });
+        // console.log(response.data);
       });
   }
 
@@ -67,6 +78,7 @@ class App extends Component {
 
     return (
       <div className="App container">
+        <h1>Books App</h1>
         <Button color="primary" onClick={this.toggleNewBookModal.bind(this)}>
           Add Book
         </Button>
