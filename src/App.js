@@ -20,6 +20,11 @@ class App extends Component {
       title: "",
       rating: ""
     },
+    editBookData: {
+      id: "",
+      title: "",
+      rating: ""
+    },
     newBookModal: false
   };
 
@@ -57,6 +62,10 @@ class App extends Component {
       });
   }
 
+  editBook(id, title, rating) {
+    console.log(id, title, rating);
+  }
+
   render() {
     let books = this.state.books.map(book => {
       return (
@@ -65,7 +74,18 @@ class App extends Component {
           <td>{book.title}</td>
           <td>4{book.rating}</td>
           <td>
-            <Button color="success" size="sm" className="mr-2">
+            {/* 'bind' parameters will send the data to the 'editBook' function */}
+            <Button
+              color="success"
+              size="sm"
+              className="mr-2"
+              onClick={this.editBook.bind(
+                this,
+                book.id,
+                book.title,
+                book.rating
+              )}
+            >
               Edit
             </Button>
             <Button color="danger" size="sm">
@@ -79,7 +99,11 @@ class App extends Component {
     return (
       <div className="App container">
         <h1>Books App</h1>
-        <Button color="primary" onClick={this.toggleNewBookModal.bind(this)}>
+        <Button
+          className="my-3"
+          color="primary"
+          onClick={this.toggleNewBookModal.bind(this)}
+        >
           Add Book
         </Button>
         <Modal
