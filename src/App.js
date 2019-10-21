@@ -30,11 +30,7 @@ class App extends Component {
   };
 
   componentWillMount() {
-    axios.get("http://localhost:3000/books").then(response => {
-      this.setState({
-        books: response.data
-      });
-    });
+    this._refreshBooks();
   }
 
   toggleNewBookModal() {
@@ -73,12 +69,21 @@ class App extends Component {
   updateBook() {
     let { title, rating } = this.state.editBookData;
     axios
-      .put("http://localhost:3000/books/id" + this.state.editBookData.id, {
+      .put("http://localhost:3000/books/" + this.state.editBookData.id, {
         title,
         rating
       })
       .then(response => {
-        console.log(response.data);
+        this._refreshBooks();
+        this.setState({
+          editBookModal: false,
+          editBookData: {
+            id: "",
+            title: "",
+            rating: ""
+          }
+        });
+        // console.log(response.data);
       });
   }
 
@@ -90,13 +95,27 @@ class App extends Component {
     // console.log(id, title, rating);
   }
 
+  deleteBook(id) {
+    axios.delete("http://localhost:3000/books/" + id).then(response => {
+      this._refreshBooks();
+    });
+  }
+
+  _refreshBooks() {
+    axios.get("http://localhost:3000/books").then(response => {
+      this.setState({
+        books: response.data
+      });
+    });
+  }
+
   render() {
     let books = this.state.books.map(book => {
       return (
         <tr key={book.id}>
           <td>{book.id}</td>
           <td>{book.title}</td>
-          <td>4{book.rating}</td>
+          <td>{book.rating}</td>
           <td>
             {/* 'bind' parameters will send the data to the 'editBook' function */}
             <Button
@@ -112,7 +131,11 @@ class App extends Component {
             >
               Edit
             </Button>
-            <Button color="danger" size="sm">
+            <Button
+              color="danger"
+              size="sm"
+              onClick={this.deleteBook.bind(this, book.id)}
+            >
               Delete
             </Button>
           </td>
