@@ -17,6 +17,7 @@ Technologies used:
   2. on your Desktop (or anywhere on your machine) create a file db.json
   3. start json server in terminal with this command: json-server --watch db.json
      - json server will find db.json file, since it was installed globaly. The file can be anywhere.
+     - make sure first you check this app and see if there is a db.json file. If yes, then add the books to it.
   4. add info to your db.json file just so you have some data to test GET request (copy paste below info and save it):
      {
      "books": [

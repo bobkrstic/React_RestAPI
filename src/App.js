@@ -53,7 +53,8 @@ class App extends Component {
       .then(response => {
         let { books } = this.state;
         books.push(response.data);
-        // update the state and hide the modal window, and reset the modal to be empty when adding a new book
+        // update the state and hide the modal window,
+        // and reset the modal to be empty when adding a new book
         this.setState({
           books,
           newBookModal: false,
